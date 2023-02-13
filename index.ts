@@ -6,7 +6,7 @@ import { exec } from "child_process";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
-const TRACKER_STATUS_TIMEOUT = 3000;
+const TRACKER_STATUS_TIMEOUT = 30000;
 
 // Función de notificador para PC
 function notifyDesktop(title: string, message: string) {
