@@ -269,7 +269,7 @@ export class Tracker {
 			this.status = Status.Ready;
 			return;
 		}
-		let val: string;
+		let val: number;
 		let groups: Group[] = [];
 		await this.page.waitForNetworkIdle();
 		groups = await this.page.evaluate(() => {
@@ -294,9 +294,9 @@ export class Tracker {
 			this.log(`\t[${group.number}] - ${group.teacher} - Cupos: ${group.places}\n`);
 		}
 		do {
-			val = await Tracker.rl.question(`Seleccione un curso [1-${(groups.length).toString()}]: `);
-		} while (val < "1" || val > (groups.length).toString());
-		this.group = groups[Number(val) - 1];
+			val = parseInt(await Tracker.rl.question(`Seleccione un curso [1-${(groups.length).toString()}]: `));
+		} while (isNaN(val) || val < 1 || val > groups.length);
+		this.group = groups[val - 1];
 		this.status = Status.Ready;
 	}
 
@@ -304,7 +304,7 @@ export class Tracker {
 	* Selecciona el curso a seguir
 	*/
 	private async selectCourse() {
-		let val: string;
+		let val: number;
 		let results: Result[] = [];
 		try {
 			results = await this.page.evaluate(Tracker.parseTable, FormId.ResultadoTabla);
@@ -319,9 +319,9 @@ export class Tracker {
 				this.log(`\t[${i}] - ${result.code} ${result.name}\n`);
 			}
 			do {
-				val = await Tracker.rl.question(`Seleccione un curso [0-${(results.length - 1).toString()}]: `);
-			} while (val < "0" || val > (results.length - 1).toString());
-			this.course = results[Number(val)];
+				val = parseInt(await Tracker.rl.question(`Seleccione un curso [0-${(results.length - 1).toString()}]: `));
+			} while (isNaN(val) || val < 0 || val > results.length - 1);
+			this.course = results[val];
 		}
 		await this.page.click(this.idToSelector(this.course.id));
 		await this.selectGroup();
@@ -417,15 +417,15 @@ export class Tracker {
 		if (select.length == 1) {
 			return "0";
 		}
-		let val = "";
+		let val: number;
 		this.log(`${prompt}\n`);
 		for (const option of select) {
 			this.log(`\t[${option.value}] - ${option.title}\n`);
 		}
 		do {
-			val = await Tracker.rl.question(`Seleccione una opción [0-${(select.length - 1).toString()}]: `);
-		} while (val < "0" || val > (select.length - 1).toString());
-		return val;
+			val = parseInt(await Tracker.rl.question(`Seleccione una opción [0-${(select.length - 1).toString()}]: `));
+		} while (isNaN(val) || val < 0 || val > select.length - 1);
+		return val.toString();
 	}
 
 	/**

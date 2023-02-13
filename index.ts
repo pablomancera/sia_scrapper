@@ -57,8 +57,7 @@ function notifyTermux(title: string, message: string) {
 	} while ((await rl.question("¿Desea seguir otro curso? [S/N]: ")).toLowerCase() == "s");
 	do {
 		usrstr = await rl.question("¿Con qué frecuencia en segundos desea consultar los cupos? [30 - 180]: ");
-
-	} while (usrstr <= "180" && usrstr >= "30");
+	} while (isNaN(parseInt(usrstr)) || parseInt(usrstr) > 180 || parseInt(usrstr) < 30);
 	timeout = Number(usrstr) * 1000;
 	// Inicia los trackers
 	for (const tracker of trackers) {
