@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@types/node-notifier": "^8.0.2",
+    "node-notifier": "^10.0.1",
+    "puppeteer": "^19.6.3"
+  },
+  "name": "sia_scrapper",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "test": "npx tsc; node index.js"
+  },
+  "author": "Pablo Alejandro Mancera (pmancera@unal.edu.co)",
+  "license": "GPL-3.0-or-later",
+  "description": "Pequeño script para seguir los cupos de las asignaturas en el buscador de cursos de la Universidad Nacional de Colombia.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pablomancera/sia_scrapper.git"
+  },
+  "type": "module"
+}
