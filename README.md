@@ -28,9 +28,10 @@ $ pkg install proot-distro
 $ proot-distro install alpine
 ```
 
-- Instalar dependencias en Alpine\
+- Instalar dependencias\
 Abrir Termux
 ```
+$ pkg install termux-api
 $ proot-distro login alpine
 # apk update
 # apk add git
