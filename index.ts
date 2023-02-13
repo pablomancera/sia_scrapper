@@ -6,6 +6,8 @@ import { exec } from "child_process";
 
 const rl = readline.createInterface(process.stdin, process.stdout);
 
+const TRACKER_STATUS_TIMEOUT = 3000;
+
 // Función de notificador para PC
 function notifyDesktop(title: string, message: string) {
 	notifier.notify({
@@ -71,6 +73,6 @@ function notifyTermux(title: string, message: string) {
 			const status = tracker.getStatus();
 			console.log(`\t${i} - ${course.name} - ${group.teacher} - Cupos: ${group.places} - Tracker: ${status}\n`)
 		}
-		await new Promise(r => setTimeout(r, timeout));
+		await new Promise(r => setTimeout(r, TRACKER_STATUS_TIMEOUT));
 	}
 })();
