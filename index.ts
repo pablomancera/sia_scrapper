@@ -19,7 +19,7 @@ function notifyDesktop(title: string, message: string) {
 
 // Función de notificador para Termux
 function notifyTermux(title: string, message: string) {
-	exec(`termux-notification -t "${title}" -c "${message}"`);
+	exec(`termux-notification -t "${title}" -c "${message}" --vibrate 1000 --sound`);
 }
 
 (async () => {
