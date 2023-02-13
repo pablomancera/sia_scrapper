@@ -12,7 +12,8 @@ const TRACKER_STATUS_TIMEOUT = 30000;
 function notifyDesktop(title: string, message: string) {
 	notifier.notify({
 		title: title,
-		message: message
+		message: message,
+		sound: true
 	})
 }
 
