@@ -35,6 +35,7 @@ $ proot-distro login alpine
 # apk update
 # apk add git
 # apk add nodejs
+# apk add npm
 # apk add chromium
 # git clone https://github.com/pablomancera/sia_scrapper.git
 # cd sia_scrapper
