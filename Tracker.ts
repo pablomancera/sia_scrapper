@@ -114,7 +114,7 @@ export class Tracker {
 	*/
 	public async track(timeout: number) {
 		this.status = Status.Tracking;
-		let oldPlaces = 0; // Guarda los cupos anteriores para compararlos con los nuevos
+		let oldPlaces = -1; // Guarda los cupos anteriores para compararlos con los nuevos
 		while (this.status = Status.Tracking) {
 			await this.page.waitForNetworkIdle();
 			try {
