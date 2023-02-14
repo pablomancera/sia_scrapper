@@ -126,7 +126,7 @@ export class Tracker {
 				this.status = Status.Tracking;
 			}
 			if (this.group!.places != oldPlaces) {
-				Tracker.notify(this.course!.name, `¡Ahora hay ${this.group?.places} cupos disponibles en el grupo ${this.group?.number} con ${this.group?.teacher}!`);
+				Tracker.notify(`${this.course!.code} ${this.course!.name}`, `¡Ahora hay ${this.group?.places} cupos disponibles en el grupo ${this.group?.number} con ${this.group?.teacher}!`);
 				oldPlaces = this.group!.places;
 			}
 			await new Promise(r => setTimeout(r, timeout >= 30000 ? timeout : 30000));
