@@ -11,7 +11,7 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "test": "npx tsc; node index.js"
+    "test": "npx tsc && node index.js"
   },
   "author": "Pablo Alejandro Mancera (pmancera@unal.edu.co)",
   "license": "GPL-3.0-or-later",
