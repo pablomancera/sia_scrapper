@@ -13,7 +13,7 @@ Pequeño script para seguir los cupos de las asignaturas en el buscador de curso
 $ git clone https://github.com/pablomancera/sia_scrapper.git
 $ cd sia_scrapper
 $ npm i
-$ npm test
+$ npm start
 ```
 # Cómo correr en Android (Termux)
 
