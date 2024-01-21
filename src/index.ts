@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import readline from "readline/promises";
-import { Status, Tracker } from "./Tracker.js"
+import { Tracker } from "./Tracker"
 import notifier from "node-notifier";
 import { exec } from "child_process";
 
