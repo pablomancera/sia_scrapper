@@ -294,7 +294,7 @@ export class Tracker {
 			this.log(`\t[${group.number}] - ${group.teacher} - Cupos: ${group.places}\n`);
 		}
 		do {
-			val = parseInt(await Tracker.rl.question(`Seleccione un curso [1-${(groups.length).toString()}]: `));
+			val = parseInt(await Tracker.rl.question(`Seleccione un grupo [1-${(groups.length).toString()}]: `));
 		} while (isNaN(val) || val < 1 || val > groups.length);
 		this.group = groups[val - 1];
 		this.status = Status.Ready;

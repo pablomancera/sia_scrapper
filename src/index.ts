@@ -52,7 +52,7 @@ function notifyTermux(title: string, message: string) {
 		for (const [i, tracker] of trackers.entries()) {
 			const course = tracker.getCourse()!;
 			const group = tracker.getGroup()!;
-			console.log(`\t${i} - ${course.code} ${course.name} - ${group.teacher} - Cupos: ${group.places}\n`);
+			console.log(`\t${i} - ${course.code} ${course.name} - Grupo ${group.number}: ${group.teacher} - Cupos: ${group.places}\n`);
 		}
 	} while ((await rl.question("¿Desea seguir otro curso? [S/N]: ")).toLowerCase() == "s");
 	do {
@@ -71,7 +71,7 @@ function notifyTermux(title: string, message: string) {
 			const course = tracker.getCourse()!;
 			const group = tracker.getGroup()!;
 			const status = tracker.getStatus();
-			console.log(`\t${i} - ${course.code} ${course.name} - ${group.teacher} - Cupos: ${group.places} - Tracker: ${status}\n`)
+			console.log(`\t${i} - ${course.code} ${course.name} - Grupo ${group.number}: ${group.teacher} - Cupos: ${group.places} - Tracker: ${status}\n`)
 		}
 		await new Promise(r => setTimeout(r, TRACKER_STATUS_TIMEOUT));
 	}
