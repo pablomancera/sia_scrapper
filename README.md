@@ -1,20 +1,31 @@
 # SIA Scrapper (Experimental)
+
 Pequeño script para seguir los cupos de las asignaturas en el buscador de cursos de la Universidad Nacional de Colombia.
+
 # Características
 - Buscador de cursos integrado.
 - Notifica cuando hay un cambio en los cupos.
 - Resistente a errores de conexión y errores aleatorios del SIA.
 - Seguidores independientes asincrónicos.
+
 # Dependencias
+
 - [Node.js](https://nodejs.org/en/)
 - npm
+
 # Quickstart
+
 ```
 $ git clone https://github.com/pablomancera/sia_scrapper.git
 $ cd sia_scrapper
 $ npm i
 $ npm start
 ```
+
+# Actualizando
+
+Luego de actualizar el repositorio se debe correr `npm run build` para compilar los cambios.
+
 # Cómo correr en Android (Termux)
 
 Requiere [Termux](https://f-droid.org/en/packages/com.termux/) y [Termux:API](https://f-droid.org/packages/com.termux.api/).
@@ -48,7 +59,7 @@ Abrir Termux
 ```
 $ proot-distro login alpine
 # cd sia_scrapper
-# npm test
+# npm start
 ```
 
 # Screenshoots
