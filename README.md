@@ -28,35 +28,12 @@ Luego de actualizar el repositorio se debe correr `npm run build` para compilar 
 
 # Cómo correr en Android (Termux)
 
-Requiere [Termux](https://f-droid.org/en/packages/com.termux/) y [Termux:API](https://f-droid.org/packages/com.termux.api/).
+Requiere instalar las aplicaciones: [Termux](https://github.com/termux/termux-app/releases/latest), [Termux:API](https://github.com/termux/termux-api/releases/latest) y [Termux:Widget](https://github.com/termux/termux-widget/releases/latest).
 
-Adaptado de https://github.com/rishabhrpg/puppeteer-on-termux
-
-- Instalar contenedor de Alpine\
-Abrir Termux
+- Dar permiso a Termux de mostrar notificaciones y mostrar sobre otras apps.
+- Ejecutar en Termux:
 ```
-$ pkg install proot-distro
-$ proot-distro install alpine
-```
-
-- Instalar dependencias\
-Abrir Termux
-```
-$ pkg install termux-api
-$ proot-distro login alpine
-# apk update
-# apk add git nodejs npm chromium
-# git clone https://github.com/pablomancera/sia_scrapper.git
-# cd sia_scrapper
-# npm i
-```
-
-- Ejecutar el programa\
-Abrir Termux
-```
-$ proot-distro login alpine
-# cd sia_scrapper
-# npm start
+bash <(curl -fsSL https://raw.githubusercontent.com/pablomancera/sia_scrapper/main/scripts/termux.sh)
 ```
 
 # Screenshoots
