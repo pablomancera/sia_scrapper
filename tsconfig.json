@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "target": "es2017",
     "module": "node16",
-    "moduleResolution": "Node",
+    "moduleResolution": "node16",
     /* Emit */
     "outDir": "./dist",
     "declaration": true,
