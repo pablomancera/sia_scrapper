@@ -116,8 +116,8 @@ export class Tracker {
 		this.status = Status.Tracking;
 		let oldPlaces = -1; // Guarda los cupos anteriores para compararlos con los nuevos
 		while (this.status = Status.Tracking) {
-			await this.page.waitForNetworkIdle();
 			try {
+				await this.page.waitForNetworkIdle();
 				await this.refreshAndGet();
 			} catch (e) {
 				this.log("Error actualizando los cursos\nReiniciando...");
