@@ -25,22 +25,27 @@ function notifyTermux(title: string, message: string) {
 (async () => {
 	let trackers: Tracker[] = [];
 	let timeout: number;
+	let isTermux: boolean = false;
 	let usrstr: string = "";
-	do {
-		console.log("\t[0] - Escritorio (Windows, Linux, MacOS, etc...)\n");
-		console.log("\t[1] - Android (Termux)\n");
-		usrstr = await rl.question("¿Qué plataforma está utilizando?: ");
-	} while (usrstr != "0" && usrstr != "1");
-	switch (usrstr) {
-		case "0":
-			Tracker.browser = await puppeteer.launch({ headless: true });
-			Tracker.notify = notifyDesktop;
-			break;
-		case "1":
-			Tracker.browser = await puppeteer.launch({ headless: true, args: ["--no-sandbox", "--disable-gpu"] });
-			Tracker.notify = notifyTermux;
-			break;
+
+	if (process.platform === 'android') {
+        try {
+            const fs = require('fs');
+            // Check for Termux-specific directory
+            isTermux = fs.existsSync('/data/data/com.termux/files/usr');
+        } catch (error) {
+            isTermux = false;
+        }
+    }
+
+	if (isTermux) {
+		Tracker.browser = await puppeteer.launch({ browser: "firefox", headless: true, args: ["--no-sandbox", "--disable-gpu"] });
+		Tracker.notify = notifyTermux;
+	} else {
+		Tracker.browser = await puppeteer.launch({ browser: "firefox", headless: true });
+		Tracker.notify = notifyDesktop;
 	}
+
 	Tracker.rl = rl;
 	// Inicializa los trackers
 	do {

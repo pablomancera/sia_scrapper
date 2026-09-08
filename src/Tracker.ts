@@ -14,7 +14,8 @@ enum FormId {
 	DeseasBuscar = "pt1:r1:0:soc5::content",
 	SedeLE = "pt1:r1:0:soc10::content",
 	FacultadLE = "pt1:r1:0:soc6::content",
-	PlanLE = "pt1:r1:0:soc7::content",
+	FacultadPlanLE = "pt1:r1:0:soc7::content",
+	PlanLE = "pt1:r1:0:soc8::content",
 	Nombre = "pt1:r1:0:it11::content",
 	Mostrar = "pt1:r1:0:cb1",
 	ResultadoDiv = "pt1:r1:0:pb3",
@@ -102,6 +103,29 @@ export class Tracker {
 				this.page = await Tracker.browser.newPage();
 			}
 		}
+
+		// Habilitar interceptor
+		await this.page.setRequestInterception(true);
+
+		// Bloquear peticiones a archivos estáticos
+		this.page.on("request", (request) => {
+			const url = request.url();
+
+			if (
+				url.endsWith(".woff2") ||
+				url.endsWith(".woff") ||
+				url.endsWith(".gif") ||
+				url.endsWith(".png") ||
+				url.endsWith(".jpg") ||
+				url.endsWith(".jpeg") ||
+				url.endsWith(".svg")
+			) {
+				request.abort();
+			} else {
+				request.continue();
+			}
+		});
+
 		this.status = Status.Ready;
 		this.writeLog = false;
 		this.keepAlive();
@@ -210,6 +234,7 @@ export class Tracker {
 				throw new Error("La página no se cargó correctamente");
 			}
 		});
+		await this.page.waitForSelector(this.idToSelector(FormId.NivelEstudio), { visible: true });
 		await this.select("Seleccione nivel de estudio:", FormId.NivelEstudio);
 		await this.waitForSelect(FormId.Sede);
 		await this.select("Seleccione sede: ", FormId.Sede);
@@ -227,7 +252,7 @@ export class Tracker {
 		await this.page.waitForSelector(this.idToSelector(FormId.Mostrar) + ":not(.p_AFDisabled)");
 		await this.page.click(this.idToSelector(FormId.Mostrar));
 		this.log("Buscando... ", false);
-		await this.page.waitForSelector(this.idToSelector(FormId.ResultadoDiv), { visible: true });
+		await this.page.waitForSelector(this.idToSelector(FormId.ResultadoTabla), { visible: true });
 		this.log("✓\n");
 		await this.selectCourse();
 	}
@@ -265,13 +290,12 @@ export class Tracker {
 	*/
 	private async selectGroup() {
 		if (this.group) {
-			await this.page.waitForNetworkIdle();
 			this.status = Status.Ready;
 			return;
 		}
+
 		let val: number;
 		let groups: Group[] = [];
-		await this.page.waitForNetworkIdle();
 		groups = await this.page.evaluate(() => {
 			let groups: Group[] = [];
 			let divs = document.querySelectorAll("[id$=pgl7]");
@@ -324,6 +348,8 @@ export class Tracker {
 			this.course = results[val];
 		}
 		await this.page.click(this.idToSelector(this.course.id));
+		// Espera a el cambio de pagina. #pt1:r1:1:cb4 es el boton para volver a la busqueda
+		await this.page.waitForSelector(this.idToSelector("pt1:r1:1:cb4"), { visible: true });
 		await this.selectGroup();
 	}
 
@@ -353,24 +379,23 @@ export class Tracker {
 	*/
 	private async selectLE() {
 		// #pt1:r1:0:pgBusqueda contiene al siguiente select, debe estar visible
-		await this.page.waitForSelector("#pt1\\:r1\\:0\\:pgBusqueda", { visible: true });
+		await this.page.waitForSelector(this.idToSelector(FormId.DeseasBuscar), { visible: true });
 		await this.select("¿Por qué desea buscar?:", FormId.DeseasBuscar);
+		
+		// Buscar por Facultad y Plan
 		if (this.data[FormId.DeseasBuscar] == "0") {
-			await this.selectFyP();
+			// #pt1:r1:0:pgBusquedaCentro contiene al siguiente select, debe estar visible
+			await this.page.waitForSelector(this.idToSelector(FormId.SedeLE), { visible: true });
+			await this.select("¿Por qué Sede?:", FormId.SedeLE);
+			await this.waitForSelect(FormId.FacultadLE);
+			await this.select("¿Por qué facultad?:", FormId.FacultadLE);
+			await this.page.waitForSelector(this.idToSelector(FormId.FacultadPlanLE), { visible: true });
+			await this.select("¿Por qué plan?:", FormId.FacultadPlanLE);
+		} else {
+			// Buscar por Plan
+			await this.page.waitForSelector(this.idToSelector(FormId.PlanLE), { visible: true });
+			await this.select("¿Por qué plan?:", FormId.PlanLE);
 		}
-		await this.page.waitForSelector(this.idToSelector(FormId.PlanLE) + ":not([disabled])");
-		await this.select("¿Por qué plan?:", FormId.PlanLE);
-	}
-
-	/**
-	* En caso de que en Libre Elección, el usuario seleccione Facultad y Plan, llena el formulario
-	*/
-	private async selectFyP() {
-		// #pt1:r1:0:pgBusquedaCentro contiene al siguiente select, debe estar visible
-		await this.page.waitForSelector("#pt1\\:r1\\:0\\:pgBusquedaCentro", { visible: true })
-		await this.select("¿Por qué Sede?:", FormId.SedeLE);
-		await this.waitForSelect(FormId.FacultadLE);
-		await this.select("¿Por qué facultad?:", FormId.FacultadLE);
 	}
 
 	/**
